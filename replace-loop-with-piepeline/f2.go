@@ -8,12 +8,11 @@ import (
 
 func acquireDataV2(input string) []CityPhone {
 	lines := Lines{}.From(strings.Split(input, "\n"))
-	rest := lines.Slice(1, len(lines)).
+	return lines.Slice(1, len(lines)).
 		Filter(func(item Line, _ int) bool { return !item.IsEmpty() }).
 		Map(func(item Line, _ int) Item { return item.ToItem() }).
 		Filter(func(item Item, _ int) bool { return item.Country == "India" }).
 		Map(func(item Item, _ int) CityPhone { return item.ToCityPhone() })
-	return rest
 }
 
 type Line string
