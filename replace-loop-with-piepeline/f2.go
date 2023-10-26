@@ -10,10 +10,10 @@ func acquireDataV2(input string) []CityPhone {
 	ls := LineStream(strings.Split(input, "\n"))
 
 	return ls.Slice(1, len(ls)).
-		Filter(func(item Line, _ int) bool { return !item.IsEmpty() }).
-		Map(func(item Line, _ int) Item { return item.ToItem() }).
-		Filter(func(item Item, _ int) bool { return item.Country == "India" }).
-		Map(func(item Item, _ int) CityPhone { return item.ToCityPhone() })
+		Filter(func(item Line) bool { return !item.IsEmpty() }).
+		Map(func(item Line) Item { return item.ToItem() }).
+		Filter(func(item Item) bool { return item.Country == "India" }).
+		Map(func(item Item) CityPhone { return item.ToCityPhone() })
 }
 
 type Line string
@@ -43,12 +43,16 @@ func (p Lines) Slice(start, end int) Lines {
 	return lo.Slice(p, start, end)
 }
 
-func (p Lines) Filter(f func(item Line, _ int) bool) Lines {
-	return lo.Filter(p, f)
+func (p Lines) Filter(f func(item Line) bool) Lines {
+	return lo.Filter(p, func(item Line, _ int) bool {
+		return f(item)
+	})
 }
 
-func (p Lines) Map(f func(item Line, _ int) Item) List {
-	return lo.Map(p, f)
+func (p Lines) Map(f func(item Line) Item) List {
+	return lo.Map(p, func(item Line, _ int) Item {
+		return f(item)
+	})
 }
 
 type Item struct {
@@ -66,10 +70,14 @@ func (p Item) ToCityPhone() CityPhone {
 
 type List []Item
 
-func (p List) Filter(f func(item Item, _ int) bool) List {
-	return lo.Filter(p, f)
+func (p List) Filter(f func(item Item) bool) List {
+	return lo.Filter(p, func(item Item, _ int) bool {
+		return f(item)
+	})
 }
 
-func (p List) Map(f func(item Item, _ int) CityPhone) []CityPhone {
-	return lo.Map(p, f)
+func (p List) Map(f func(item Item) CityPhone) []CityPhone {
+	return lo.Map(p, func(item Item, _ int) CityPhone {
+		return f(item)
+	})
 }
