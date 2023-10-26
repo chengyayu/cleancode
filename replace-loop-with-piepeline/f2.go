@@ -7,8 +7,9 @@ import (
 )
 
 func acquireDataV2(input string) []CityPhone {
-	lines := Lines{}.From(strings.Split(input, "\n"))
-	return lines.Slice(1, len(lines)).
+	ls := LineStream(strings.Split(input, "\n"))
+
+	return ls.Slice(1, len(ls)).
 		Filter(func(item Line, _ int) bool { return !item.IsEmpty() }).
 		Map(func(item Line, _ int) Item { return item.ToItem() }).
 		Filter(func(item Item, _ int) bool { return item.Country == "India" }).
@@ -32,7 +33,7 @@ func (p Line) ToItem() Item {
 
 type Lines []Line
 
-func (p Lines) From(s []string) Lines {
+func LineStream(s []string) Lines {
 	return lo.Map(s, func(item string, _ int) Line {
 		return Line(item)
 	})
