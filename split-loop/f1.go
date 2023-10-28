@@ -6,20 +6,20 @@ import (
 )
 
 func getYoungestAgeAndTotalSalaryV1(peoples []*People) string {
-	var yougestAge int
+	var youngestAge int
 	if peoples[0] != nil {
-		yougestAge = peoples[0].Age
+		youngestAge = peoples[0].Age
 	} else {
-		yougestAge = math.MaxInt
+		youngestAge = math.MaxInt
 	}
 
 	var totalSalary = 0
 	for _, p := range peoples {
-		if p.Age < yougestAge {
-			yougestAge = p.Age
+		if p.Age < youngestAge {
+			youngestAge = p.Age
 		}
 		totalSalary += p.Salary
 	}
 
-	return fmt.Sprintf("youngestAge: %d, totalSalary: %d", yougestAge, totalSalary)
+	return fmt.Sprintf("youngestAge: %d, totalSalary: %d", youngestAge, totalSalary)
 }
