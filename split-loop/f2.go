@@ -6,12 +6,7 @@ import (
 )
 
 func getYoungestAgeAndTotalSalaryV2(peoples []*People) string {
-
-	youngestAge := getYoungestAge(peoples)
-
-	totalSalary := getTotalSalary(peoples)
-
-	return fmt.Sprintf("youngestAge: %d, totalSalary: %d", youngestAge, totalSalary)
+	return fmt.Sprintf("youngestAge: %d, totalSalary: %d", getYoungestAge(peoples), getTotalSalary(peoples))
 }
 
 func getTotalSalary(peoples []*People) int {
