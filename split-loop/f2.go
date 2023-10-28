@@ -3,6 +3,8 @@ package main
 import (
 	"fmt"
 	"math"
+
+	"github.com/samber/lo"
 )
 
 func getYoungestAgeAndTotalSalaryV2(peoples []*People) string {
@@ -10,19 +12,15 @@ func getYoungestAgeAndTotalSalaryV2(peoples []*People) string {
 }
 
 func getTotalSalary(peoples []*People) int {
-	totalSalary := 0
-	for _, p := range peoples {
-		totalSalary += p.Salary
-	}
-	return totalSalary
+	salarys := lo.Map(peoples, func(item *People, _ int) int {
+		return item.Salary
+	})
+	return lo.Sum(salarys)
 }
 
 func getYoungestAge(peoples []*People) int {
-	youngestAge := math.MaxInt
-	for _, p := range peoples {
-		if p.Age < youngestAge {
-			youngestAge = p.Age
-		}
-	}
-	return youngestAge
+	ages := lo.Map(peoples, func(item *People, _ int) int {
+		return item.Age
+	})
+	return lo.Min(append(ages, math.MaxInt))
 }
